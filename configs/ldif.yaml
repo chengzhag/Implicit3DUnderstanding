@@ -1,0 +1,65 @@
+method: LDIF
+resume: False
+finetune: False
+weight: 'out/mgnet//model_best.pth'
+seed: 123
+device:
+  use_gpu: True
+  gpu_ids: '0'
+  num_workers: 8
+data:
+  dataset: pix3d
+  split: data/pix3d/splits
+  random_nomask: 0.0
+  watertight: True
+  near_surface_samples: 1024
+  uniform_samples: 1024
+  bounding_box: 0.7
+  coarse_grid_spacing: 0.04375
+  marching_cube_resolution: 256
+model:
+  mesh_reconstruction:
+    method: LDIF
+    loss: LDIFLoss
+    bottleneck_size: 1536
+    element_count: 32
+    sym_element_count: 16
+    implicit_parameter_length: 32
+    uniform_loss_weight: 1.0
+    near_surface_loss_weight: 0.1
+    lowres_grid_inside_loss_weight: 0.2
+    inside_box_loss_weight: 10.0
+optimizer:
+  method: Adam
+  lr: 2e-4
+  betas: [0.9, 0.999]
+  eps: 1e-08
+  weight_decay: 0.0
+scheduler:
+  patience: 50
+  factor: 0.5
+  threshold: 0.002
+train:
+  epochs: 400
+  phase: 'all'
+  freeze: []
+  batch_size: 24
+val:
+  phase: 'all'
+  batch_size: 24
+test:
+  phase: 'all'
+  batch_size: 1
+demo:
+  phase: 'all'
+log:
+  vis_path: visualization
+  save_results: True
+  vis_step: 100
+  print_step: 50
+  path: out/ldif
+  save_checkpoint: True
+
+
+
+

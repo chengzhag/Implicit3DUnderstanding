@@ -1,0 +1,1 @@
+[{"bbox": [1, 226, 320, 530], "class": "chair"}, {"bbox": [73, 117, 360, 324], "class": "chair"}, {"bbox": [595, 107, 730, 362], "class": "table"}, {"bbox": [623, 67, 730, 180], "class": "chair"}, {"bbox": [419, 58, 553, 230], "class": "chair"}, {"bbox": [221, 1, 430, 182], "class": "bookshelf"}]

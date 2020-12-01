@@ -1,0 +1,4 @@
+pkgs/*/*.o
+apps/*/*.o
+lib/*/*.a
+bin/*/*
