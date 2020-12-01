@@ -53,7 +53,7 @@ model:
     loss_settings:
       scale_before_func: 100.0
       type: classmse
-  output_refine:
+  output_adjust:
     method: GCNN
     loss: Null
     feature_dim: 512

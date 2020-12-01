@@ -54,7 +54,7 @@ model:
       phy_loss_objects: 4
       surface_optimize: True
       type: classmse
-  output_refine:
+  output_adjust:
     method: GCNN
     loss: Null
     feature_dim: 512

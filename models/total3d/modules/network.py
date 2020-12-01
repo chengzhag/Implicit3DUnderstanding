@@ -30,8 +30,8 @@ class TOTAL3D(BaseNetwork):
             phase_names += ['object_detection']
         if cfg.config[cfg.config['mode']]['phase'] in ['joint']:
             phase_names += ['mesh_reconstruction']
-            if 'output_refine' in cfg.config['model'].keys():
-                phase_names += ['output_refine']
+            if 'output_adjust' in cfg.config['model'].keys():
+                phase_names += ['output_adjust']
 
         if (not cfg.config['model']) or (not phase_names):
             cfg.log_string('No submodule found. Please check the phase name and model definition.')
@@ -159,7 +159,7 @@ class TOTAL3D(BaseNetwork):
             # get extra_results
             all_output.update(self.get_extra_results(all_output))
 
-            if hasattr(self, 'output_refine'):
+            if hasattr(self, 'output_adjust'):
                 input = all_output.copy()
                 input['size_cls'] = data['size_cls']
                 input['cls_codes'] = data['cls_codes']
@@ -167,7 +167,7 @@ class TOTAL3D(BaseNetwork):
                 input['bdb2D_pos'] = data['bdb2D_pos']
                 input['K'] = data['K']
                 input['split'] = data['split']
-                refined_output = self.output_refine(input)
+                refined_output = self.output_adjust(input)
                 all_output.update(refined_output)
 
         if all_output:

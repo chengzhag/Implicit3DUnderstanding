@@ -82,14 +82,14 @@ class GCNN(nn.Module):
 
         '''configs and params'''
         self.cfg = cfg
-        self.lo_features = cfg.config['model']['output_refine']['lo_features']
-        self.obj_features = cfg.config['model']['output_refine']['obj_features']
-        self.rel_features = cfg.config['model']['output_refine']['rel_features']
-        feature_dim = cfg.config['model']['output_refine']['feature_dim']
-        self.feat_update_step = cfg.config['model']['output_refine']['feat_update_step']
-        self.res_output = cfg.config['model']['output_refine'].get('res_output', False)
-        self.feat_update_group = cfg.config['model']['output_refine'].get('feat_update_group', 1)
-        self.res_group = cfg.config['model']['output_refine'].get('res_group', False)
+        self.lo_features = cfg.config['model']['output_adjust']['lo_features']
+        self.obj_features = cfg.config['model']['output_adjust']['obj_features']
+        self.rel_features = cfg.config['model']['output_adjust']['rel_features']
+        feature_dim = cfg.config['model']['output_adjust']['feature_dim']
+        self.feat_update_step = cfg.config['model']['output_adjust']['feat_update_step']
+        self.res_output = cfg.config['model']['output_adjust'].get('res_output', False)
+        self.feat_update_group = cfg.config['model']['output_adjust'].get('feat_update_group', 1)
+        self.res_group = cfg.config['model']['output_adjust'].get('res_group', False)
 
         self.feature_length = {
             'size_cls': len(NYU40CLASSES), 'cls_codes': pix3d_n_classes,

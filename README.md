@@ -47,13 +47,21 @@ We follow [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstandin
 
 ##### Preprocess SUN-RGBD data
 
-Please follow [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding) to directly download or generate the processed train/test data.
+Please follow [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding) to directly download the processed train/test data.
 
-In case you prefer processing by yourself,
-according to [issue #6](https://github.com/yinyunie/Total3DUnderstanding/issues/6) of [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding),
+In case you prefer processing by yourself, please follow these steps:
+
+1. Follow [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding) to download the raw data.
+
+2. According to [issue #6](https://github.com/yinyunie/Total3DUnderstanding/issues/6) of [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding),
 there are a few typos in json files of SUNRGBD dataset, which is mostly solve by the json loader.
 However, one typo still needs to be fixed by hand.
 Please find ```{"name":""propulsion"tool"}``` in ```data/sunrgbd/Dataset/SUNRGBD/kv2/kinect2data/002922_2014-06-26_15-43-16_094959634447_rgbf000089-resize/annotation2Dfinal/index.json``` and remove ```""propulsion```.
+
+2. Process the data by
+```
+python -m utils.generate_data
+```
 
 ##### Preprocess Pix3D data
 We use a different data process pipeline with [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding). Please follow these steps to generate the train/test data:
