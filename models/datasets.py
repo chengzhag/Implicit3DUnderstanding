@@ -21,7 +21,15 @@ class SUNRGBD(Dataset):
         self.mode = mode
         split_file = os.path.join(config['data']['split'], mode + '.json')
         with open(split_file) as file:
-            self.split = json.load(file)
+            split = json.load(file)
+        self.split = []
+        skipped = 0
+        for s in tqdm(split):
+            if os.path.exists(s):
+                self.split.append(s)
+            else:
+                skipped += 1
+        print(f'{skipped}/{len(split)} missing samples')
 
     def __len__(self):
         return len(self.split)
