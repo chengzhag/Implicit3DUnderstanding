@@ -147,9 +147,19 @@ out/total3d/[start_time]/visualization
 ```
 python main.py out/[ldif/total3d]/[start_time]/model_best.pth --mode test
 ```
-The results will be saved to evaluation metrics will be logged to wandb as run summary.
+The results will be saved to ```out/total3d/[start_time]/visualization``` and the evaluation metrics will be logged to wandb as run summary.
 
-2. Visualize the i-th 3D scene interacively by
+2. Evaluate 3D object detection with our modified matlab script from [Coop](https://github.com/thusiyuan/cooperative_scene_parsing):
+```
+external/cooperative_scene_parsing/evaluation/detections/script_eval_detection.m
+```
+Before running the script, please specify the following parameters:
+```
+SUNRGBD_path = 'path/to/SUNRGBD';
+result_path = 'path/to/experiment/results/visualization';
+```
+
+3. Visualize the i-th 3D scene interacively by
 ```
 python utils/visualize.py --result_path out/total3d/[start_time]/visualization --sequence_id [i]
 ```
@@ -161,6 +171,29 @@ In case you do not have a screen:
 ```
 python utils/visualize.py --result_path out/total3d/[start_time]/visualization --sequence_id [i] --save_path [] --offscreen
 ```
+If nothing goes wrong, you should get results like:
+
+<img src="figures/724_bbox.png" alt="camera view 3D bbox" width="20%" /> <img src="figures/724_recon.png" alt="scene reconstruction" width="20%" />
+
+4. Visualize the detection results from a third person view with our modified matlab script from [Coop](https://github.com/thusiyuan/cooperative_scene_parsing):
+```
+external/cooperative_scene_parsing/evaluation/vis/show_result.m
+``` 
+Before running the script, please specify the following parameters:
+```
+SUNRGBD_path = 'path/to/SUNRGBD';
+save_root = 'path/to/save/the/detection/results';
+paths = {
+    {'path/to/save/detection/results', 'path/to/experiment/results/visualization'}, ...
+    {'path/to/save/gt/boundingbox/results'}
+};
+vis_pc = false; % or true, if you want to show cloud point ground truth
+views3d = {'oblique', 'top'}; % choose prefered view
+dosave = true; % or false, please place breakpoints to interactively view the results.
+```
+If nothing goes wrong, you should get results like:
+
+<img src="figures/724_oblique_3d.png" alt="oblique view 3D bbox" width="40%" />
 
 ##### About the testing speed
 
