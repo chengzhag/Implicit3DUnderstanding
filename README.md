@@ -160,10 +160,11 @@ python utils/visualize.py --result_path out/total3d/[start_time]/visualization -
 
 ##### About the testing speed
 
-When using marching cube to reconstruct mesh with LDIF, the CUDA kernel is used to optimize the speed.
-However, we ported the file-based interface of the kernel in [Tensorflow implementation](https://github.com/google/ldif) which is bottlenecked by the file IO.
-This is the main reason why our method takes so much time in object and scene mesh reconstruction.
-To improve the speed, you can lower the parameter ```data.marching_cube_resolution``` in the configuration file.
+Thanks to the simplicity of LIEN+LDIF, the pretrain takes only about 8 hours on a 1080Ti.
+However, although we used the CUDA kernel of [LDIF](https://github.com/google/ldif) to optimize the speed,
+the file-based interface of the kernel still bottlenecked the mesh reconstruction.
+This is the main reason why our method takes much more time in object and scene mesh reconstruction.
+If you want speed over mesh quality, please lower the parameter ```data.marching_cube_resolution``` in the configuration file.
 
 ## Citation
 
@@ -172,6 +173,7 @@ We thank the following great works:
 - [Coop](https://github.com/thusiyuan/cooperative_scene_parsing) for their dataset. We used their processed dataset with 2D detector prediction.
 - [LDIF](https://github.com/google/ldif) for their novel representation method. We ported their LDIF decoder from Tensorflow to PyTorch.
 - [Graph R-CNN](https://github.com/jwyang/graph-rcnn.pytorch/blob/master/README.md) for their scene graph design. We adopted their GCN implemention to construct our SGCN.
+- [Occupancy Networks](https://github.com/autonomousvision/occupancy_networks) for their modified version of [mesh-fusion](https://github.com/davidstutz/mesh-fusion) pipeline.
 
 If you find them helpful, please cite:
 ```
@@ -202,6 +204,13 @@ year = {2020}
     booktitle={Proceedings of the European Conference on Computer Vision (ECCV)},
     pages={670--685},
     year={2018}
+}
+@inproceedings{mescheder2019occupancy,
+  title={Occupancy networks: Learning 3d reconstruction in function space},
+  author={Mescheder, Lars and Oechsle, Michael and Niemeyer, Michael and Nowozin, Sebastian and Geiger, Andreas},
+  booktitle={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
+  pages={4460--4470},
+  year={2019}
 }
 ```
 
