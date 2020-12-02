@@ -18,34 +18,35 @@ python project.py build
 
 
 ## Demo
-1.Download the [pretrained checkpoint](https://stduestceducn-my.sharepoint.com/:u:/g/personal/2015010912010_std_uestc_edu_cn/Efs2Tqlkk_pIhy16ud20m5sBMkbkWJEuspiLjdF4G2jOzA?e=sxnswk) and unzip it into
-```
-out/total3d/20110611514267/
-```
-2.Change current directory to ```Implicit3DUnderstanding/``` and run the demo, which will generate 3D detection result and rendered scene mesh to ```demo/output/1/```
-```
-CUDA_VISIBLE_DEVICES=0 python main.py out/total3d/20110611514267/out_config.yaml --mode demo --demo_path demo/inputs/1
-```
-3.In case you want to run it off screen (for example, with SSH)
-```
-sudo apt install xvfb
-CUDA_VISIBLE_DEVICES=0 xvfb-run -a -s "-screen 0 800x600x24" python main.py out/total3d/20110611514267/out_config.yaml --mode demo --demo_path demo/inputs/1
-```
-4.If you want to run it interactively, change the last line of demo.py
-```
-scene_box.draw3D(if_save=True, save_path = '%s/recon.png' % (save_path))
-```
-to
-```
-scene_box.draw3D(if_save=False, save_path = '%s/recon.png' % (save_path))
-```
+1. Download the [pretrained checkpoint](https://stduestceducn-my.sharepoint.com/:u:/g/personal/2015010912010_std_uestc_edu_cn/Efs2Tqlkk_pIhy16ud20m5sBMkbkWJEuspiLjdF4G2jOzA?e=sxnswk)
+and unzip it into ```out/total3d/20110611514267/```
+
+2. Change current directory to ```Implicit3DUnderstanding/``` and run the demo, which will generate 3D detection result and rendered scene mesh to ```demo/output/1/```
+    ```
+    CUDA_VISIBLE_DEVICES=0 python main.py out/total3d/20110611514267/out_config.yaml --mode demo --demo_path demo/inputs/1
+    ```
+   
+3. In case you want to run it off screen (for example, with SSH)
+    ```
+    sudo apt install xvfb
+    CUDA_VISIBLE_DEVICES=0 xvfb-run -a -s "-screen 0 800x600x24" python main.py out/total3d/20110611514267/out_config.yaml --mode demo --demo_path demo/inputs/1
+    ```
+   
+4. If you want to run it interactively, change the last line of demo.py
+    ```
+    scene_box.draw3D(if_save=True, save_path = '%s/recon.png' % (save_path))
+    ```
+    to
+    ```
+    scene_box.draw3D(if_save=False, save_path = '%s/recon.png' % (save_path))
+    ```
 
 
 ## Data preparation
 We follow [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding) to use [SUN-RGBD](https://rgbd.cs.princeton.edu/) to train our Scene Graph Convolutional Network (SGCN), and use [Pix3D](http://pix3d.csail.mit.edu/) to train our Local Implicit Embedding Network
 (LIEN) with [Local Deep Implicit Functions](https://github.com/google/ldif) (LDIF) decoder.
 
-##### Preprocess SUN-RGBD data
+#### Preprocess SUN-RGBD data
 
 Please follow [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding) to directly download the processed train/test data.
 
@@ -58,22 +59,20 @@ there are a few typos in json files of SUNRGBD dataset, which is mostly solve by
 However, one typo still needs to be fixed by hand.
 Please find ```{"name":""propulsion"tool"}``` in ```data/sunrgbd/Dataset/SUNRGBD/kv2/kinect2data/002922_2014-06-26_15-43-16_094959634447_rgbf000089-resize/annotation2Dfinal/index.json``` and remove ```""propulsion```.
 
-2. Process the data by
-```
-python -m utils.generate_data
-```
+3. Process the data by
+    ```
+    python -m utils.generate_data
+    ```
 
-##### Preprocess Pix3D data
+#### Preprocess Pix3D data
 We use a different data process pipeline with [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding). Please follow these steps to generate the train/test data:
 
-1. Download the [Pix3D dataset](http://pix3d.csail.mit.edu/) to 
-```
-data/pix3d/metadata
-```
+1. Download the [Pix3D dataset](http://pix3d.csail.mit.edu/) to ```data/pix3d/metadata```
+
 2. Run below to generate the train/test data into 'data/pix3d/ldif'
-```
-python utils/preprocess_pix3d4ldif.py
-```
+    ```
+    python utils/preprocess_pix3d4ldif.py
+    ```
 
 
 ## Training and Testing
@@ -84,118 +83,104 @@ In case you don't need to visualize the training process, you can put ```WANDB_M
 Thanks to the well-structured code of [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding), we use the same method to manage parameters of each experiment with configuration files (```configs/****.yaml```).
 We first follow [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding) to pretrain each individual module, then jointly finetune the full model with additional physical violation loss.
 
-##### Pretraining
+#### Pretraining
 We use the [pretrained checkpoint](https://livebournemouthac-my.sharepoint.com/:u:/g/personal/ynie_bournemouth_ac_uk/EcA66Nb1aI1KitzX7avbE10BiHGzovf3rqQebeJHmFB4QA?e=4hE8zv) of [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding) to load weights for ODN.
 Please download and rename the checkpoint to ```out/pretrained_models/total3d/model_best.pth```.
 Other modules can be trained then tested with the following steps:
 
 1. Train LEN by:
-```
-python main.py configs/layout_estimation.yaml
-```
-The pretrained checkpoint can be found at 
-```
-out/layout_estimation/[start_time]/model_best.pth
-```
+    ```
+    python main.py configs/layout_estimation.yaml
+    ```
+    The pretrained checkpoint can be found at ```out/layout_estimation/[start_time]/model_best.pth```
+    
 2. Train LIEN + LDIF by:
-```
-python main.py configs/ldif.yaml
-```
-The pretrained checkpoint can be found at
-```
-out/ldif/[start_time]/model_best.pth
-```
-The training process is followed with a quick test without ICP and Chamfer distance evaluated. In case you want to align mesh and evaluate the Chamfer distance during testing:
-```
-python main.py configs/ldif.yaml --mode train
-```
-The generated object meshes can be found at
-```
-out/ldif/[start_time]/visualization
-```
+    ```
+    python main.py configs/ldif.yaml
+    ```
+    The pretrained checkpoint can be found at ```out/ldif/[start_time]/model_best.pth```
+    
+    The training process is followed with a quick test without ICP and Chamfer distance evaluated. In case you want to align mesh and evaluate the Chamfer distance during testing:
+    ```
+    python main.py configs/ldif.yaml --mode train
+    ```
+    The generated object meshes can be found at ```out/ldif/[start_time]/visualization```
+    
 3. Replace the checkpoint directories of LEN and LIEN in ```configs/total3d_ldif_gcnn.yaml``` with the checkpoints trained above, then train SGCN by:
-```
-python main.py configs/total3d_ldif_gcnn.yaml
-```
-The pretrained checkpoint can be found at
-```
-out/total3d/[start_time]/model_best.pth
-```
+    ```
+    python main.py configs/total3d_ldif_gcnn.yaml
+    ```
+    The pretrained checkpoint can be found at ```out/total3d/[start_time]/model_best.pth```
 
-##### Joint finetune
+#### Joint finetune
 
-Replace the checkpoint directory in ```configs/total3d_ldif_gcnn_joint.yaml``` with the one trained in the last step above, then train the full model by:
-```
-python main.py configs/total3d_ldif_gcnn_joint.yaml
-```
-The trained model can be found at
-```
-out/total3d/[start_time]/model_best.pth
-```
-The training process is followed with a quick test without scene mesh generated. In case you want to generate the scene mesh during testing (which will cost a day on 1080ti due to the unoptimized interface of LDIF CUDA kernel):
-```
-python main.py configs/total3d_ldif_gcnn_joint.yaml --mode train
-```
-The testing resaults can be found at
-```
-out/total3d/[start_time]/visualization
-```
+1. Replace the checkpoint directory in ```configs/total3d_ldif_gcnn_joint.yaml``` with the one trained in the last step above, then train the full model by:
+    ```
+    python main.py configs/total3d_ldif_gcnn_joint.yaml
+    ```
+    The trained model can be found at ```out/total3d/[start_time]/model_best.pth```
+    
+2. The training process is followed with a quick test without scene mesh generated. In case you want to generate the scene mesh during testing (which will cost a day on 1080ti due to the unoptimized interface of LDIF CUDA kernel):
+    ```
+    python main.py configs/total3d_ldif_gcnn_joint.yaml --mode train
+    ```
+    The testing resaults can be found at ```out/total3d/[start_time]/visualization```
 
-##### Testing
+#### Testing
 
 1. The training process above already include a testing process. In case you want to test LIEN+LDIF or full model by yourself:
-```
-python main.py out/[ldif/total3d]/[start_time]/model_best.pth --mode test
-```
-The results will be saved to ```out/total3d/[start_time]/visualization``` and the evaluation metrics will be logged to wandb as run summary.
+    ```
+    python main.py out/[ldif/total3d]/[start_time]/model_best.pth --mode test
+    ```
+    The results will be saved to ```out/total3d/[start_time]/visualization``` and the evaluation metrics will be logged to wandb as run summary.
 
 2. Evaluate 3D object detection with our modified matlab script from [Coop](https://github.com/thusiyuan/cooperative_scene_parsing):
-```
-external/cooperative_scene_parsing/evaluation/detections/script_eval_detection.m
-```
-Before running the script, please specify the following parameters:
-```
-SUNRGBD_path = 'path/to/SUNRGBD';
-result_path = 'path/to/experiment/results/visualization';
-```
+    ```
+    external/cooperative_scene_parsing/evaluation/detections/script_eval_detection.m
+    ```
+    Before running the script, please specify the following parameters:
+    ```
+    SUNRGBD_path = 'path/to/SUNRGBD';
+    result_path = 'path/to/experiment/results/visualization';
+    ```
 
 3. Visualize the i-th 3D scene interacively by
-```
-python utils/visualize.py --result_path out/total3d/[start_time]/visualization --sequence_id [i]
-```
-or save the 3D detection result and rendered scene mesh by
-```
-python utils/visualize.py --result_path out/total3d/[start_time]/visualization --sequence_id [i] --save_path []
-```
-In case you do not have a screen:
-```
-python utils/visualize.py --result_path out/total3d/[start_time]/visualization --sequence_id [i] --save_path [] --offscreen
-```
-If nothing goes wrong, you should get results like:
-
-<img src="figures/724_bbox.png" alt="camera view 3D bbox" width="20%" /> <img src="figures/724_recon.png" alt="scene reconstruction" width="20%" />
+    ```
+    python utils/visualize.py --result_path out/total3d/[start_time]/visualization --sequence_id [i]
+    ```
+    or save the 3D detection result and rendered scene mesh by
+    ```
+    python utils/visualize.py --result_path out/total3d/[start_time]/visualization --sequence_id [i] --save_path []
+    ```
+    In case you do not have a screen:
+    ```
+    python utils/visualize.py --result_path out/total3d/[start_time]/visualization --sequence_id [i] --save_path [] --offscreen
+    ```
+    If nothing goes wrong, you should get results like:
+    
+    <img src="figures/724_bbox.png" alt="camera view 3D bbox" width="20%" /> <img src="figures/724_recon.png" alt="scene reconstruction" width="20%" />
 
 4. Visualize the detection results from a third person view with our modified matlab script from [Coop](https://github.com/thusiyuan/cooperative_scene_parsing):
-```
-external/cooperative_scene_parsing/evaluation/vis/show_result.m
-``` 
-Before running the script, please specify the following parameters:
-```
-SUNRGBD_path = 'path/to/SUNRGBD';
-save_root = 'path/to/save/the/detection/results';
-paths = {
-    {'path/to/save/detection/results', 'path/to/experiment/results/visualization'}, ...
-    {'path/to/save/gt/boundingbox/results'}
-};
-vis_pc = false; % or true, if you want to show cloud point ground truth
-views3d = {'oblique', 'top'}; % choose prefered view
-dosave = true; % or false, please place breakpoints to interactively view the results.
-```
-If nothing goes wrong, you should get results like:
+    ```
+    external/cooperative_scene_parsing/evaluation/vis/show_result.m
+    ``` 
+    Before running the script, please specify the following parameters:
+    ```
+    SUNRGBD_path = 'path/to/SUNRGBD';
+    save_root = 'path/to/save/the/detection/results';
+    paths = {
+        {'path/to/save/detection/results', 'path/to/experiment/results/visualization'}, ...
+        {'path/to/save/gt/boundingbox/results'}
+    };
+    vis_pc = false; % or true, if you want to show cloud point ground truth
+    views3d = {'oblique', 'top'}; % choose prefered view
+    dosave = true; % or false, please place breakpoints to interactively view the results.
+    ```
+    If nothing goes wrong, you should get results like:
+    
+    <img src="figures/724_oblique_3d.png" alt="oblique view 3D bbox" width="40%" />
 
-<img src="figures/724_oblique_3d.png" alt="oblique view 3D bbox" width="40%" />
-
-##### About the testing speed
+#### About the testing speed
 
 Thanks to the simplicity of LIEN+LDIF, the pretrain takes only about 8 hours on a 1080Ti.
 However, although we used the CUDA kernel of [LDIF](https://github.com/google/ldif) to optimize the speed,
