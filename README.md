@@ -105,9 +105,13 @@ The pretrained checkpoint can be found at
 ```
 out/ldif/[start_time]/model_best.pth
 ```
-The training process is followed with a quick test without scene mesh generated. In case you want to generate the object mesh and evaluate the Chamfer distance during testing:
+The training process is followed with a quick test without ICP and Chamfer distance evaluated. In case you want to align mesh and evaluate the Chamfer distance during testing:
 ```
 python main.py configs/ldif.yaml --mode train
+```
+The generated object meshes can be found at
+```
+out/ldif/[start_time]/visualization
 ```
 3. Replace the checkpoint directories of LEN and LIEN in ```configs/total3d_ldif_gcnn.yaml``` with the checkpoints trained above, then train SGCN by:
 ```
