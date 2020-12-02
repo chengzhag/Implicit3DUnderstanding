@@ -18,7 +18,7 @@ python project.py build
 
 
 ## Demo
-1.Download the pretrained checkpoint and unzip it into
+1.Download the [pretrained checkpoint](https://stduestceducn-my.sharepoint.com/:u:/g/personal/2015010912010_std_uestc_edu_cn/Efs2Tqlkk_pIhy16ud20m5sBMkbkWJEuspiLjdF4G2jOzA?e=sxnswk) and unzip it into
 ```
 out/total3d/20110611514267/
 ```
