@@ -50,7 +50,9 @@ We follow [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstandin
 
 Please follow [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding) to directly download the processed train/test data.
 
-In case you prefer processing by yourself, please follow these steps:
+In case you prefer processing by yourself or want to evaluate 3D detection with our code
+(To ultilize the evaluation code of [Coop](https://github.com/thusiyuan/cooperative_scene_parsing), we modified the data processing code of Total3DUnderstanding to save parameters for transforming the coordinate system from Total3D back to Coop),
+please follow these steps:
 
 1. Follow [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding) to download the raw data.
 
