@@ -11,6 +11,7 @@ Cheng Zhang, Zhaopeng Cui, Yinda Zhang, Shuaicheng Liu, Bing Zeng, Marc Pollefey
 ## Install
 
 ```
+sudo apt install xvfb
 conda env create -f environment.yml
 conda activate Im3D
 python project.py build
@@ -28,7 +29,6 @@ and unzip it into ```out/total3d/20110611514267/```
    
 3. In case you want to run it off screen (for example, with SSH)
     ```
-    sudo apt install xvfb
     CUDA_VISIBLE_DEVICES=0 xvfb-run -a -s "-screen 0 800x600x24" python main.py out/total3d/20110611514267/out_config.yaml --mode demo --demo_path demo/inputs/1
     ```
    
