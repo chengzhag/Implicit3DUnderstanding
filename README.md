@@ -57,7 +57,7 @@ please follow these steps:
 1. Follow [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding) to download the raw data.
 
 2. According to [issue #6](https://github.com/yinyunie/Total3DUnderstanding/issues/6) of [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding),
-there are a few typos in json files of SUNRGBD dataset, which is mostly solve by the json loader.
+there are a few typos in json files of SUNRGBD dataset, which is mostly solved by the json loader.
 However, one typo still needs to be fixed by hand.
 Please find ```{"name":""propulsion"tool"}``` in ```data/sunrgbd/Dataset/SUNRGBD/kv2/kinect2data/002922_2014-06-26_15-43-16_094959634447_rgbf000089-resize/annotation2Dfinal/index.json``` and remove ```""propulsion```.
 
