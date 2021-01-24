@@ -161,7 +161,7 @@ __MACOSX/
 *.m~
 
 # Compiled MEX binaries (all platforms)
-*.mex*
+# *.mex*
 
 # Packaged app and toolbox files
 *.mlappinstall
