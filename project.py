@@ -128,9 +128,8 @@ def build(args):
     if args.subwork is None or 'ldif2mesh' in args.subwork:
         print("Building ldif2mesh...")
         ldif2mesh_path = os.path.join(root, 'external', 'ldif', 'ldif2mesh')
-        cmd = f"/usr/local/cuda/bin/nvcc -std=c++11 -Xptxas -O3 --gpu-architecture=compute_61 --gpu-code=sm_61" \
-              f" --ptxas-options=-v -maxrregcount 63 {os.path.join(ldif2mesh_path, 'ldif2mesh.cu')}" \
-              f" -o {os.path.join(ldif2mesh_path, 'ldif2mesh')}"
+        cmd = f"cd {ldif2mesh_path}" \
+              f"bash build.sh"
         print(f"Run: {cmd}")
         os.system(cmd)
         os.system(f"chmod 744 {os.path.join(ldif2mesh_path, 'ldif2mesh')}")
