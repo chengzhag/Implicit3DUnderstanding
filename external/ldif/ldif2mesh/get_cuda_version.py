@@ -3,11 +3,22 @@
 
 import subprocess as sp
 
+# nvcc output for Cuda 11
+# nvcc: NVIDIA (R) Cuda compiler driver
+# Copyright (c) 2005-2020 NVIDIA Corporation
+# Built on Mon_Nov_30_19:08:53_PST_2020
+# Cuda compilation tools, release 11.2, V11.2.67
+# Build cuda_11.2.r11.2/compiler.29373293_0
+
 def get_cuda_version():
   try:
     output = sp.check_output(['nvcc', '-V']).decode('utf-8')
     lines = output.split('\n')
-    version_str = lines[-2].split(',')[1].split(' ')[-1]
+    if not output.find('V11'):
+      version_str = lines[-2].split(',')[1].split(' ')[-1]
+    else:
+      version_str = lines[-3].split(',')[1].split(' ')[-1]
+      
     major_version = int(version_str.split('.')[0])
     minor_version = int(version_str.split('.')[1])
     return major_version, minor_version

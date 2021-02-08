@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-cd $(dirname $0)
+#cd $(dirname $0)
 
 # Get the cuda version to figure out which architectures
 # to build for:
@@ -40,6 +40,13 @@ if [[ $major_version -ge 10 ]]; then
   echo "Adding CUDA 10 Targets."
   targets="${targets} \
     -gencode=arch=compute_75,code=sm_75"
+fi
+
+# Support for Ampere  (e.g. RTX 3090). Requires CUDA 11.
+if [[ $major_version -ge 11 ]]; then
+  echo "Adding CUDA 11 Targets."
+  targets="${targets} \
+    -gencode=arch=compute_86,code=sm_86"
 fi
 
 nvcc -Xptxas -O3 \

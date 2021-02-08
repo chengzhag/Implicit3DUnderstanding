@@ -128,8 +128,8 @@ def build(args):
     if args.subwork is None or 'ldif2mesh' in args.subwork:
         print("Building ldif2mesh...")
         ldif2mesh_path = os.path.join(root, 'external', 'ldif', 'ldif2mesh')
-        cmd = f"cd {ldif2mesh_path}" \
-              f"bash build.sh"
+        cmd = f"cd {ldif2mesh_path} &&" \
+              f" bash build.sh"
         print(f"Run: {cmd}")
         os.system(cmd)
         os.system(f"chmod 744 {os.path.join(ldif2mesh_path, 'ldif2mesh')}")
