@@ -323,36 +323,37 @@ class GCNN(nn.Module):
 
     def _get_map(self, data):
         device = data['g_features'].device
-        obj_num = data['split'][-1][-1] + data['split'].shape[0]
-        obj_obj_map = torch.zeros([obj_num, obj_num])
-        rel_inds = []
-        rel_masks = []
-        obj_masks = torch.zeros(obj_num, dtype=torch.uint8)
-        lo_masks = torch.zeros(obj_num, dtype=torch.uint8)
-        for lo_index, (start, end) in enumerate(data['split']):
-            start = start + lo_index
-            end = end + lo_index + 1
-            obj_obj_map[start:end, start:end] = 1
-            obj_ind =  torch.arange(start, end, dtype=torch.long)
-            subj_ind_i, obj_ind_i = torch.meshgrid(obj_ind, obj_ind)
+        split = data['split']
+        obj_num = split[-1][-1] + split.shape[0]  # number of objects and layouts
+        obj_obj_map = torch.zeros([obj_num, obj_num])  # mapping of obj/lo vertices with connections
+        rel_inds = []  # indexes of vertices connected by relation nodes
+        rel_masks = []  # mask of relation features for obj/lo vertices connected by relation nodes
+        obj_masks = torch.zeros(obj_num, dtype=torch.bool)  # mask of object vertices
+        lo_masks = torch.zeros(obj_num, dtype=torch.bool)  # mask of layout vertices
+        for lo_index, (start, end) in enumerate(split):
+            start = start + lo_index  # each subgraph has Ni object vertices and 1 layout vertex
+            end = end + lo_index + 1  # consider layout vertex, Ni + 1 vertices in total
+            obj_obj_map[start:end, start:end] = 1  # each subgraph is a complete graph with self circle
+            obj_ind = torch.arange(start, end, dtype=torch.long)
+            subj_ind_i, obj_ind_i = torch.meshgrid(obj_ind, obj_ind)  # indexes of each vertex in the subgraph
             rel_ind_i = torch.stack([subj_ind_i.reshape(-1), obj_ind_i.reshape(-1)], -1)
-            rel_mask_i = rel_ind_i[:, 0] != rel_ind_i[:, 1]
+            rel_mask_i = rel_ind_i[:, 0] != rel_ind_i[:, 1]  # vertices connected by relation nodes should be different
             rel_inds.append(rel_ind_i[rel_mask_i])
             rel_masks.append(rel_mask_i)
-            obj_masks[start:end - 1] = True
-            lo_masks[end - 1] = True
+            obj_masks[start:end - 1] = True  # for each subgraph, first Ni vertices are objects
+            lo_masks[end - 1] = True  # for each subgraph, last 1 vertex is layout
 
         rel_inds = torch.cat(rel_inds, 0)
-        if rel_inds.shape[0] == 0:
-            return None
         rel_masks = torch.cat(rel_masks, 0)
 
-        subj_pred_map = torch.zeros(obj_num, rel_inds.shape[0])
+        subj_pred_map = torch.zeros(obj_num, rel_inds.shape[0])  # [sum(Ni + 1), sum((Ni + 1) ** 2)]
         obj_pred_map = torch.zeros(obj_num, rel_inds.shape[0])
+        # map from subject (an object or layout vertex) to predicate (a relation vertex)
         subj_pred_map.scatter_(0, (rel_inds[:, 0].view(1, -1)), 1)
+        # map from object (an object or layout vertex) to predicate (a relation vertex)
         obj_pred_map.scatter_(0, (rel_inds[:, 1].view(1, -1)), 1)
 
-        return rel_masks.to(device), obj_masks.to(device), lo_masks.to(device),\
+        return rel_masks.to(device), obj_masks.to(device), lo_masks.to(device), \
                obj_obj_map.to(device), subj_pred_map.to(device), obj_pred_map.to(device)
 
     def forward(self, output):
@@ -366,15 +367,17 @@ class GCNN(nn.Module):
         x_lo = self._get_layout_features(output)
         x_lo = self.lo_embedding(x_lo)
 
-        x_obj_lo = []
-        x_pred_objlo = []
+        x_obj_lo = [] # representation of object and layout vertices
+        x_pred_objlo = [] # representation of relation vertices connecting obj/lo vertices
+        rel_pair = output['rel_pair_counts']
         for lo_index, (start, end) in enumerate(output['split']):
-            x_obj_lo.append(x_obj[start:end])
-            x_obj_lo.append(x_lo[lo_index:lo_index+1])
-            x_pred_objlo.append(x_pred[start ** 2:end ** 2].reshape(end - start, end - start, -1))
+            x_obj_lo.append(x_obj[start:end]) # for each subgraph, first Ni vertices are objects
+            x_obj_lo.append(x_lo[lo_index:lo_index+1]) # for each subgraph, last 1 vertex is layout
+            x_pred_objlo.append(
+                x_pred[rel_pair[lo_index]:rel_pair[lo_index + 1]].reshape(end - start, end - start, -1))
             x_pred_objlo[-1] = F.pad(x_pred_objlo[-1].permute(2,0,1), [0, 1, 0, 1], "constant", 0.001).permute(1,2,0)
             x_pred_objlo[-1] = x_pred_objlo[-1].reshape((end - start + 1) ** 2, -1)
-        x_obj = torch.cat(x_obj_lo)
+        x_obj = torch.cat(x_obj_lo) # from here, for compatibility with graph-rcnn, x_obj corresponds to obj/lo vertices
         x_pred = torch.cat(x_pred_objlo)
         x_pred = x_pred[rel_masks]
 

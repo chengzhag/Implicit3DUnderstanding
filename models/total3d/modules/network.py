@@ -167,6 +167,7 @@ class TOTAL3D(BaseNetwork):
                 input['bdb2D_pos'] = data['bdb2D_pos']
                 input['K'] = data['K']
                 input['split'] = data['split']
+                input['rel_pair_counts'] = data['rel_pair_counts']
                 refined_output = self.output_adjust(input)
                 all_output.update(refined_output)
 
