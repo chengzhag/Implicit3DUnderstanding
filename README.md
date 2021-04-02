@@ -1,5 +1,6 @@
-# Holistic 3D Scene Understanding from a Single Image with Implicit Representation
+# Implicit3DUnderstanding (Im3D) [[Project Page]](https://chengzhag.github.io/publication/im3d/)
 
+### Holistic 3D Scene Understanding from a Single Image with Implicit Representation
 Cheng Zhang, Zhaopeng Cui, Yinda Zhang, Shuaicheng Liu, Bing Zeng, Marc Pollefeys
 
 <img src="demo/inputs/1/img.jpg" alt="img.jpg" width="20%" /> <img src="demo/outputs/1/3dbbox.png" alt="3dbbox.png" width="20%" /> <img src="demo/outputs/1/recon.png" alt="recon.png" width="20%" /> <br>
@@ -7,6 +8,13 @@ Cheng Zhang, Zhaopeng Cui, Yinda Zhang, Shuaicheng Liu, Bing Zeng, Marc Pollefey
 <img src="demo/inputs/3/img.jpg" alt="img.jpg" width="20%" /> <img src="demo/outputs/3/3dbbox.png" alt="3dbbox.png" width="20%" /> <img src="demo/outputs/3/recon.png" alt="recon.png" width="20%" />
 
 ![pipeline](figures/pipeline.png)
+
+## Introduction
+
+This repo contains training, testing, evaluation, visualization code of our CVPR 2021 paper.
+Specially, the repo contains our PyTorch implementation of the decoder of [LDIF](https://github.com/google/ldif), which can be extracted and used in other projects.
+We are expecting to release a refactored version of our pipeline and a PyTorch implementation of the full LDIF model in the future. 
+
 
 ## Install
 
