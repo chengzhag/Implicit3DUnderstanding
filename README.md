@@ -200,6 +200,16 @@ If you want speed over mesh quality, please lower the parameter ```data.marching
 
 ## Citation
 
+If you find our work and code helpful, please consider cite:
+```
+@article{zhang2021holistic,
+  title={Holistic 3D Scene Understanding from a Single Image with Implicit Representation},
+  author={Zhang, Cheng and Cui, Zhaopeng and Zhang, Yinda and Zeng, Bing and Pollefeys, Marc and Liu, Shuaicheng},
+  journal={arXiv preprint arXiv:2103.06422},
+  year={2021}
+}
+```
+
 We thank the following great works:
 - [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding) for their well-structured code. We construct our network based on their well-structured code.
 - [Coop](https://github.com/thusiyuan/cooperative_scene_parsing) for their dataset. We used their processed dataset with 2D detector prediction.
