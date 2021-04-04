@@ -19,7 +19,7 @@ We are expecting to release a refactored version of our pipeline and a PyTorch i
 ## Install
 
 ```
-sudo apt install xvfb
+sudo apt install xvfb ninja-build
 conda env create -f environment.yml
 conda activate Im3D
 python project.py build
