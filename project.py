@@ -4,6 +4,7 @@ import glob
 from tqdm import tqdm
 import shutil
 import os
+import subprocess
 import git
 import sys
 python_bin = sys.executable
@@ -61,7 +62,8 @@ def clone(args):
     shutil.copytree(os.path.join(src, '.idea/'), os.path.join(dst, '.idea/'))
     remote_mappings = os.path.join(dst, '.idea', 'remote-mappings.xml')
     if os.path.exists(remote_mappings):
-        os.system(f"sed -i s#{src}#{os.path.abspath(os.path.join(src, dst))}#g {remote_mappings}")
+        subprocess.check_output(f"sed -i s#{src}#{os.path.abspath(os.path.join(src, dst))}#g {remote_mappings}",
+                                shell=True)
 
     print("Adding soft link for essential files...")
     os.symlink(os.path.join(src, 'out'), os.path.join(dst, 'out'))
@@ -80,7 +82,7 @@ def clone(args):
         f"{python_bin} {os.path.join(dst, 'project.py')} build"
     ])
     print(f"Run: {cmd}")
-    os.system(cmd)
+    subprocess.check_output(cmd, shell=True)
 
 def build(args):
     root = os.path.split(__file__)[0]
@@ -92,7 +94,7 @@ def build(args):
             f"bash build_gaps.sh"
         ])
         print(f"Run: {cmd}")
-        os.system(cmd)
+        subprocess.check_output(cmd, shell=True)
 
     if args.subwork is None or 'mesh_fusion' in args.subwork:
         print("Building pyfusion...")
@@ -107,7 +109,7 @@ def build(args):
             f"{python_bin} setup.py build_ext --inplace"
         ])
         print(f"Run: {cmd}")
-        os.system(cmd)
+        subprocess.check_output(cmd, shell=True)
 
         print("Building pyrender...")
         cmd = ' && '.join([
@@ -115,7 +117,7 @@ def build(args):
             f"{python_bin} setup.py build_ext --inplace"
         ])
         print(f"Run: {cmd}")
-        os.system(cmd)
+        subprocess.check_output(cmd, shell=True)
 
         print("Building PyMCubes...")
         cmd = ' && '.join([
@@ -123,16 +125,21 @@ def build(args):
             f"{python_bin} setup.py build_ext --inplace"
         ])
         print(f"Run: {cmd}")
-        os.system(cmd)
+        subprocess.check_output(cmd, shell=True)
 
     if args.subwork is None or 'ldif2mesh' in args.subwork:
         print("Building ldif2mesh...")
         ldif2mesh_path = os.path.join(root, 'external', 'ldif', 'ldif2mesh')
-        cmd = f"cd {ldif2mesh_path} &&" \
-              f" bash build.sh"
+        cmd = ' && '.join([
+            f"cd {ldif2mesh_path}",
+            f"bash build.sh"
+        ])
+        print(f"Run: {cmd}")
+        subprocess.check_output(cmd, shell=True)
+        subprocess.check_output(f"chmod 744 {os.path.join(ldif2mesh_path, 'ldif2mesh')}", shell=True)
+
         print(f"Run: {cmd}")
         os.system(cmd)
-        os.system(f"chmod 744 {os.path.join(ldif2mesh_path, 'ldif2mesh')}")
 
 
 if __name__ == '__main__':
