@@ -94,7 +94,7 @@ Thanks to the well-structured code of [Total3DUnderstanding](https://github.com/
 We first follow [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding) to pretrain each individual module, then jointly finetune the full model with additional physical violation loss.
 
 #### Pretraining
-We use the [pretrained checkpoint](https://livebournemouthac-my.sharepoint.com/:u:/g/personal/ynie_bournemouth_ac_uk/EcA66Nb1aI1KitzX7avbE10BiHGzovf3rqQebeJHmFB4QA?e=4hE8zv) of [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding) to load weights for ODN.
+We use the [pretrained checkpoint](https://livebournemouthac-my.sharepoint.com/:u:/g/personal/ynie_bournemouth_ac_uk/EWuyQXemB25Gq5ssOZfFKyQBA7w2URXR3HLvjJiKkChaiA?e=0Zk9n0) of [Total3DUnderstanding](https://github.com/yinyunie/Total3DUnderstanding) to load weights for ODN.
 Please download and rename the checkpoint to ```out/pretrained_models/total3d/model_best.pth```.
 Other modules can be trained then tested with the following steps:
 
