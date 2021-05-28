@@ -1,7 +1,7 @@
-# Implicit3DUnderstanding (Im3D) [[Project Page]](https://chengzhag.github.io/publication/im3d/)
+# Implicit3DUnderstanding (Im3D) [[Project Page (with interactive results)]](https://chengzhag.github.io/publication/im3d/)[[Paper]](https://arxiv.org/pdf/2103.06422)[[Video]](https://www.youtube.com/watch?v=Kg0du7mFu60)
 
 ### Holistic 3D Scene Understanding from a Single Image with Implicit Representation
-Cheng Zhang, Zhaopeng Cui, Yinda Zhang, Shuaicheng Liu, Bing Zeng, Marc Pollefeys
+Cheng Zhang*, Zhaopeng Cui*, Yinda Zhang*, Shuaicheng Liu, Bing Zeng, Marc Pollefeys
 
 <img src="demo/inputs/1/img.jpg" alt="img.jpg" width="20%" /> <img src="demo/outputs/1/3dbbox.png" alt="3dbbox.png" width="20%" /> <img src="demo/outputs/1/recon.png" alt="recon.png" width="20%" /> <br>
 <img src="demo/inputs/2/img.jpg" alt="img.jpg" width="20%" /> <img src="demo/outputs/2/3dbbox.png" alt="3dbbox.png" width="20%" /> <img src="demo/outputs/2/recon.png" alt="recon.png" width="20%" /> <br>
