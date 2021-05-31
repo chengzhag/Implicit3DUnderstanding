@@ -140,7 +140,7 @@ Other modules can be trained then tested with the following steps:
 
 1. The training process above already include a testing process. In case you want to test LIEN+LDIF or full model by yourself:
     ```
-    python main.py out/[ldif/total3d]/[start_time]/model_best.pth --mode test
+    python main.py out/[ldif/total3d]/[start_time]/out_config.yaml --mode test
     ```
     The results will be saved to ```out/total3d/[start_time]/visualization``` and the evaluation metrics will be logged to wandb as run summary.
 
