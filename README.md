@@ -18,13 +18,16 @@ We are expecting to release a refactored version of our pipeline and a PyTorch i
 
 ## Install
 
+Please make sure to install CUDA NVCC on your system first. then run the following:
 ```
-sudo apt install xvfb ninja-build
+sudo apt install xvfb ninja-build freeglut3-dev libglew-dev
 conda env create -f environment.yml
 conda activate Im3D
 python project.py build
 ```
-
+When running ```python project.py build```, the script will run ```external/build_gaps.sh``` which requires password for sudo privilege for ```apt-get install```.
+Please make sure you are running with a user with sudo privilege.
+If not, please reach your administrator for installation of [these libraries](https://github.com/chengzhag/Implicit3DUnderstanding/blob/af2964f074d941cd990cff81a9b5f75489586ed2/external/build_gaps.sh#L37) and comment out the corresponding lines then run ```python project.py build```.
 
 ## Demo
 1. Download the [pretrained checkpoint](https://stduestceducn-my.sharepoint.com/:u:/g/personal/2015010912010_std_uestc_edu_cn/Efs2Tqlkk_pIhy16ud20m5sBMkbkWJEuspiLjdF4G2jOzA?e=sxnswk)
