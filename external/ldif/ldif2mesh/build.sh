@@ -52,4 +52,4 @@ fi
 nvcc -Xptxas -O3 \
   ${targets} \
   --ptxas-options=-v -maxrregcount 63 $1 \
-  ldif2mesh.cu -o ldif2mesh
+  ldif2mesh.cu -o ldif2mesh --std c++11
