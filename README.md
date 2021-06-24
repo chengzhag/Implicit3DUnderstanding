@@ -112,6 +112,7 @@ Other modules can be trained then tested with the following steps:
     python main.py configs/ldif.yaml
     ```
     The pretrained checkpoint can be found at ```out/ldif/[start_time]/model_best.pth```
+    (alternatively, you can download the pretrained model [here](https://stduestceducn-my.sharepoint.com/:u:/g/personal/2015010912010_std_uestc_edu_cn/EQj2e3Utbg1HnkNh1e6YslABTml0R8Eng5-X3ic5jD2LFA?e=2vreNA), and unzip it into out/ldif/20101613380518/)
     
     The training process is followed with a quick test without ICP and Chamfer distance evaluated. In case you want to align mesh and evaluate the Chamfer distance during testing:
     ```
