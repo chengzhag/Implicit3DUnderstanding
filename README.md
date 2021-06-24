@@ -20,7 +20,7 @@ We are expecting to release a refactored version of our pipeline and a PyTorch i
 
 Please make sure to install CUDA NVCC on your system first. then run the following:
 ```
-sudo apt install xvfb ninja-build freeglut3-dev libglew-dev
+sudo apt install xvfb ninja-build freeglut3-dev libglew-dev meshlab
 conda env create -f environment.yml
 conda activate Im3D
 python project.py build
