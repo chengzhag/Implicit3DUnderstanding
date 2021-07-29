@@ -206,11 +206,13 @@ If you want speed over mesh quality, please lower the parameter ```data.marching
 
 If you find our work and code helpful, please consider cite:
 ```
-@article{zhang2021holistic,
-  title={Holistic 3D Scene Understanding from a Single Image with Implicit Representation},
-  author={Zhang, Cheng and Cui, Zhaopeng and Zhang, Yinda and Zeng, Bing and Pollefeys, Marc and Liu, Shuaicheng},
-  journal={arXiv preprint arXiv:2103.06422},
-  year={2021}
+@InProceedings{Zhang_2021_CVPR,
+    author    = {Zhang, Cheng and Cui, Zhaopeng and Zhang, Yinda and Zeng, Bing and Pollefeys, Marc and Liu, Shuaicheng},
+    title     = {Holistic 3D Scene Understanding From a Single Image With Implicit Representation},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2021},
+    pages     = {8833-8842}
 }
 ```
 
