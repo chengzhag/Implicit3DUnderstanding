@@ -9,11 +9,11 @@ Cheng Zhang*, Zhaopeng Cui*, Yinda Zhang*, Shuaicheng Liu, Bing Zeng, Marc Polle
 
 ![pipeline](figures/pipeline.png)
 
+
 ## Introduction
 
 This repo contains training, testing, evaluation, visualization code of our CVPR 2021 paper.
 Specially, the repo contains our PyTorch implementation of the decoder of [LDIF](https://github.com/google/ldif), which can be extracted and used in other projects.
-We are expecting to release a refactored version of our pipeline and a PyTorch implementation of the full LDIF model in the future. 
 
 
 ## Install
